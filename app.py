@@ -2,6 +2,8 @@ import pygame
 from bag import Bag
 from board import Board
 from piece import Piece
+
+
 module_charge = pygame.init()
 print('module_chargés (5,0) si success : ', module_charge)
 

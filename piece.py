@@ -1,6 +1,5 @@
 from tkinter import E
 import pygame
-import random
 
 class Piece:
 
