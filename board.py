@@ -2,12 +2,10 @@ import pygame
 
 class Board:
     def __init__(self, height, width):
-        print('board')
         self.width = width
         self.height = height
         self.board = [[0 for x in range(self.width)] for x in range(self.height)]
         self.tileSize = height*100
-        self.newRow = [0 for x in range(self.width)]
         self.score = 0
 
     def Draw(self, screen):
@@ -27,7 +25,8 @@ class Board:
                     complete = False
             if complete:
                 newBoard.pop(row)
-                newBoard.insert(0, self.newRow)
+                newRow = [0 for x in range(self.width)]
+                newBoard.insert(0, newRow)
                 rowsCompleted += 1
         if (rowsCompleted>0):
             self.UpdateScore(rowsCompleted)

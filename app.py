@@ -5,31 +5,38 @@ from piece import Piece
 module_charge = pygame.init()
 print('module_chargés (5,0) si success : ', module_charge)
 
-# plein écran :
-# ecran = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-
-# petit écran :
 ecran = pygame.display.set_mode((1000,1000))
 
 loop = True
 
+# Création des différents éléments du jeu
 board = Board(10, 10)
 bag = Bag()
+
+# Tirage du premier type de pièce
 draw = bag.Draw()
 piece = Piece(draw["piece"])
 
 
+# Démarrage du timer
 clock = pygame.time.Clock()
 timer = 0.01
 getTicksLastFrame = 0
+
 while loop :
 
+    # Vérification des conditions de victoires, et fin du script si atteintes
+    if board.board[0][5] == 1:
+        print('Game finished ! Final Score : {}'.format(board.score))
+        pygame.quit()
+
+    # Affichage du scoreboard de base (titre de la fenêtre)
     pygame.display.set_caption("Tetris by ZilbaM - Score : {} - Next Piece : {}".format(board.score, draw["nextPiece"]))
+    
+    # Gestion du timer. Si le timer atteint 0.8s, on fait tomber la pièce et on reset le timer
     t = pygame.time.get_ticks()
     deltat = (t - getTicksLastFrame) / 1000
-    ecran.fill((0,0,0))
     getTicksLastFrame = t
-
     timer+=deltat
     if timer>.8:
         res = piece.Fall(board)
@@ -37,9 +44,9 @@ while loop :
         if res["newPiece"]:
             draw = bag.Draw()
             piece = Piece(draw["piece"])
-
         timer = 0
     
+    ecran.fill((0,0,0))
     board.Draw(ecran)
     piece.Draw(ecran)
     for event in pygame.event.get() :
@@ -53,7 +60,8 @@ while loop :
             if event.key == pygame.K_UP:
                 piece.Rotate(board.board)
             if event.key == pygame.K_DOWN:
-                piece.Fall(board)
+                if piece.y <9:
+                    piece.Fall(board)
             
         if event.type == pygame.QUIT:
             loop = False

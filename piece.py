@@ -12,17 +12,17 @@ class Piece:
 
     def Fall(self, board):
         canFall = True
+        affectedcells = []
+        currentcells = []
         match self.type:
             case "O":
                 affectedcells = [[self.y+2, self.x], [self.y+2, self.x+1]]
-                currentcells = [[self.y, self.x], [self.y+1, self.x], [self.y, self.x+1], [self.y+1, self.x+1]]
-
-                for cell in affectedcells:
-                    [celly, cellx] = cell
-                    if celly == board.height:
-                        canFall = False
-                    elif board.board[celly][cellx] == 1:
-                        canFall = False
+                currentcells = [
+                    [self.y+1, self.x+1],
+                    [self.y+1, self.x], 
+                    [self.y, self.x], 
+                    [self.y, self.x+1], 
+                ]                
             case "I":
                 match self.rotate:
                     case 0|2:
@@ -40,21 +40,14 @@ class Piece:
                         ]
                     case 1|3:
                         currentcells = [
-                            [self.y-1, self.x],
-                            [self.y, self.x],
-                            [self.y+1, self.x],
                             [self.y+2, self.x],
+                            [self.y+1, self.x],
+                            [self.y, self.x],
+                            [self.y-1, self.x],
                         ]
                         affectedcells = [
                             [self.y+3, self.x],
-                        ]
-                
-                for cell in affectedcells:
-                    [celly, cellx] = cell
-                    if celly == board.height:
-                        canFall = False
-                    elif board.board[celly][cellx] == 1:
-                        canFall = False            
+                        ]           
             case "T":
                 match self.rotate:
                     case 0:
@@ -71,25 +64,25 @@ class Piece:
                         ]
                     case 1:
                         currentcells = [
-                            [self.y, self.x],
-                            [self.y-1, self.x],
                             [self.y+1, self.x],
+                            [self.y, self.x],
                             [self.y, self.x-1],
+                            [self.y-1, self.x],
                         ]
                         affectedcells = [
-                            [self.y+1, self.x-1],
                             [self.y+2, self.x],
+                            [self.y+1, self.x-1],
                         ]
                     case 2:
                         currentcells = [
+                            [self.y+1, self.x],
                             [self.y, self.x],
                             [self.y, self.x-1],
                             [self.y, self.x+1],
-                            [self.y+1, self.x],
                         ]
                         affectedcells = [
-                            [self.y+1, self.x-1],
                             [self.y+2, self.x],
+                            [self.y+1, self.x-1],
                             [self.y+1, self.x+1],
                         ]
                     case 3:
@@ -103,82 +96,62 @@ class Piece:
                             [self.y+1, self.x+1],
                             [self.y+2, self.x],
                         ]
-                for cell in affectedcells:
-                    [celly, cellx] = cell
-                    if celly == board.height:
-                        canFall = False
-                    elif board.board[celly][cellx] == 1:
-                        canFall = False
             case 'Z':
                 match self.rotate:
                     case 0|2:
                         currentcells = [
+                            [self.y+1, self.x+1],
+                            [self.y+1, self.x],
                             [self.y, self.x-1],
                             [self.y, self.x],
-                            [self.y+1, self.x],
-                            [self.y+1, self.x+1],
                         ]
                         affectedcells = [
-                            [self.y+1, self.x-1],
                             [self.y+2, self.x],
-                            [self.y+2, self.x+1]
+                            [self.y+2, self.x+1],
+                            [self.y+1, self.x-1],
                         ]
                     case 1|3:
                         currentcells = [
-                            [self.y, self.x],
                             [self.y+1, self.x],
-                            [self.y-1, self.x+1],
+                            [self.y, self.x],
                             [self.y, self.x+1],
+                            [self.y-1, self.x+1],
                         ]
                         affectedcells = [
                             [self.y+2, self.x],
                             [self.y+1, self.x+1]
                         ]
-                
-                for cell in affectedcells:
-                    [celly, cellx] = cell
-                    if celly == board.height:
-                        canFall = False
-                    elif board.board[celly][cellx] == 1:
-                        canFall = False
             case 'S':
                 match self.rotate:
                     case 0|2:
                         currentcells = [
-                            [self.y, self.x+1],
-                            [self.y, self.x],
                             [self.y+1, self.x],
                             [self.y+1, self.x-1],
+                            [self.y, self.x],
+                            [self.y, self.x+1],
                         ]
                         affectedcells = [
-                            [self.y+1, self.x+1],
+                            [self.y+2, self.x-1],
                             [self.y+2, self.x],
-                            [self.y+2, self.x-1]
+                            [self.y+1, self.x+1],
                         ]
                     case 1|3:
                         currentcells = [
-                            [self.y, self.x],
                             [self.y+1, self.x],
-                            [self.y-1, self.x-1],
                             [self.y, self.x-1],
+                            [self.y, self.x],
+                            [self.y-1, self.x-1],
                         ]
                         affectedcells = [
                             [self.y+2, self.x],
-                            [self.y+1, self.x-1]
+                            [self.y+1, self.x-1],
                         ]
-
-                for cell in affectedcells:
-                    [celly, cellx] = cell
-                    if celly == board.height:
-                        canFall = False
-                    elif board.board[celly][cellx] == 1:
-                        canFall = False
             case 'J':
                 match self.rotate:
                     case 0:
                         currentcells = [
-                            [self.y, self.x],
                             [self.y, self.x-1],
+                            [self.y, self.x],
                             [self.y, self.x+1],
                             [self.y-1, self.x-1],
                         ]
@@ -189,50 +162,44 @@ class Piece:
                         ]
                     case 1:
                         currentcells = [
+                            [self.y+1, self.x],
                             [self.y, self.x],
                             [self.y-1, self.x],
-                            [self.y+1, self.x],
                             [self.y-1, self.x+1],
                         ]
                         affectedcells = [
-                            [self.y, self.x+1],
                             [self.y+2, self.x],
+                            [self.y, self.x+1],
                         ]
                     case 2:
                         currentcells = [
-                            [self.y, self.x],
-                            [self.y, self.x-1],
-                            [self.y, self.x+1],
                             [self.y+1, self.x+1],
+                            [self.y, self.x-1],
+                            [self.y, self.x],
+                            [self.y, self.x+1],
                         ]
                         affectedcells = [
+                            [self.y+2, self.x+1],
                             [self.y+1, self.x-1],
                             [self.y+1, self.x],
-                            [self.y+2, self.x+1],
                         ]
                     case 3:
                         currentcells = [
+                            [self.y+1, self.x-1],
+                            [self.y+1, self.x],
                             [self.y, self.x],
                             [self.y-1, self.x],
-                            [self.y+1, self.x],
-                            [self.y+1, self.x-1],
                         ]
                         affectedcells = [
                             [self.y+2, self.x-1],
                             [self.y+2, self.x],
                         ]
-                for cell in affectedcells:
-                    [celly, cellx] = cell
-                    if celly == board.height:
-                        canFall = False
-                    elif board.board[celly][cellx] == 1:
-                        canFall = False
             case 'L':
                 match self.rotate:
                     case 0:
                         currentcells = [
-                            [self.y, self.x],
                             [self.y, self.x-1],
+                            [self.y, self.x],
                             [self.y, self.x+1],
                             [self.y-1, self.x+1],
                         ]
@@ -243,21 +210,21 @@ class Piece:
                         ]
                     case 1:
                         currentcells = [
-                            [self.y, self.x],
-                            [self.y-1, self.x],
                             [self.y+1, self.x],
+                            [self.y, self.x],
                             [self.y-1, self.x-1],
+                            [self.y-1, self.x],
                         ]
                         affectedcells = [
-                            [self.y, self.x-1],
                             [self.y+2, self.x],
+                            [self.y, self.x-1],
                         ]
                     case 2:
                         currentcells = [
-                            [self.y, self.x],
-                            [self.y, self.x-1],
-                            [self.y, self.x+1],
                             [self.y+1, self.x-1],
+                            [self.y, self.x-1],
+                            [self.y, self.x],
+                            [self.y, self.x+1],
                         ]
                         affectedcells = [
                             [self.y+2, self.x-1],
@@ -266,23 +233,22 @@ class Piece:
                         ]
                     case 3:
                         currentcells = [
-                            [self.y, self.x],
-                            [self.y-1, self.x],
                             [self.y+1, self.x],
                             [self.y+1, self.x+1],
+                            [self.y, self.x],
+                            [self.y-1, self.x],
                         ]
                         affectedcells = [
-                            [self.y+2, self.x+1],
                             [self.y+2, self.x],
+                            [self.y+2, self.x+1],
                         ]
-                for cell in affectedcells:
+        for cell in affectedcells:
                     [celly, cellx] = cell
                     if celly == board.height:
                         canFall = False
                     elif board.board[celly][cellx] == 1:
                         canFall = False
         newBoard = board.board
-        
         if canFall:
             self.y+=1
             newPiece = False
@@ -290,6 +256,7 @@ class Piece:
             for cell in currentcells:
                 newBoard[cell[0]][cell[1]] = 1
             newPiece = True
+        
         return {
             "newPiece": newPiece,
             "board": newBoard
@@ -330,39 +297,39 @@ class Piece:
             case 'S':
                 match self.rotate:
                     case 0|2:
-                        pygame.draw.rect(screen, (200,200,0), (self.x*100, self.y*100, 200, 100), 100)
-                        pygame.draw.rect(screen, (200,200,0), ((self.x-1)*100, (self.y+1)*100, 200, 100), 100)
+                        pygame.draw.rect(screen, (200,0,200), (self.x*100, self.y*100, 200, 100), 100)
+                        pygame.draw.rect(screen, (200,0,200), ((self.x-1)*100, (self.y+1)*100, 200, 100), 100)
                     case 1|3:
-                        pygame.draw.rect(screen, (200,200,0), (self.x*100, self.y*100, 100, 200), 100)
-                        pygame.draw.rect(screen, (200,200,0), ((self.x-1)*100, (self.y-1)*100, 100, 200), 100)
+                        pygame.draw.rect(screen, (200,0,200), (self.x*100, self.y*100, 100, 200), 100)
+                        pygame.draw.rect(screen, (200,0,200), ((self.x-1)*100, (self.y-1)*100, 100, 200), 100)
             case 'J':
                 match self.rotate:
                     case 0:
-                        pygame.draw.rect(screen, (200,0,200), ((self.x-1)*100, (self.y-1)*100, 100, 100), 100)
-                        pygame.draw.rect(screen, (200,0,200), ((self.x-1)*100, (self.y)*100, 300, 100), 100)
+                        pygame.draw.rect(screen, (0, 200,200), ((self.x-1)*100, (self.y-1)*100, 100, 100), 100)
+                        pygame.draw.rect(screen, (0, 200,200), ((self.x-1)*100, (self.y)*100, 300, 100), 100)
                     case 1:
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x+1)*100, (self.y-1)*100, 100, 100))
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x)*100, (self.y-1)*100, 100, 300))
+                        pygame.draw.rect(screen, (0, 200, 200), ((self.x+1)*100, (self.y-1)*100, 100, 100))
+                        pygame.draw.rect(screen, (0, 200, 200), ((self.x)*100, (self.y-1)*100, 100, 300))
                     case 2:
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x-1)*100, (self.y)*100, 300, 100))
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x+1)*100, (self.y+1)*100, 100, 100))  
+                        pygame.draw.rect(screen, (0, 200, 200), ((self.x-1)*100, (self.y)*100, 300, 100))
+                        pygame.draw.rect(screen, (0, 200, 200), ((self.x+1)*100, (self.y+1)*100, 100, 100))  
                     case 3:
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x)*100, (self.y-1)*100, 100, 300))
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x-1)*100, (self.y+1)*100, 100, 100))
+                        pygame.draw.rect(screen, (0, 200, 200), ((self.x)*100, (self.y-1)*100, 100, 300))
+                        pygame.draw.rect(screen, (0, 200, 200), ((self.x-1)*100, (self.y+1)*100, 100, 100))
             case 'L':
                 match self.rotate:
                     case 0:
-                        pygame.draw.rect(screen, (200,0,200), ((self.x+1)*100, (self.y-1)*100, 100, 100), 100)
-                        pygame.draw.rect(screen, (200,0,200), ((self.x-1)*100, (self.y)*100, 300, 100), 100)
+                        pygame.draw.rect(screen, (100, 0,200), ((self.x+1)*100, (self.y-1)*100, 100, 100), 100)
+                        pygame.draw.rect(screen, (100, 0,200), ((self.x-1)*100, (self.y)*100, 300, 100), 100)
                     case 1:
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x-1)*100, (self.y-1)*100, 100, 100))
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x)*100, (self.y-1)*100, 100, 300))
+                        pygame.draw.rect(screen, (100, 0, 200), ((self.x-1)*100, (self.y-1)*100, 100, 100))
+                        pygame.draw.rect(screen, (100, 0, 200), ((self.x)*100, (self.y-1)*100, 100, 300))
                     case 2:
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x-1)*100, (self.y)*100, 300, 100))
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x-1)*100, (self.y+1)*100, 100, 100))  
+                        pygame.draw.rect(screen, (100, 0, 200), ((self.x-1)*100, (self.y)*100, 300, 100))
+                        pygame.draw.rect(screen, (100, 0, 200), ((self.x-1)*100, (self.y+1)*100, 100, 100))  
                     case 3:
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x)*100, (self.y-1)*100, 100, 300))
-                        pygame.draw.rect(screen, (200, 0, 200), ((self.x+1)*100, (self.y+1)*100, 100, 100))
+                        pygame.draw.rect(screen, (100, 0, 200), ((self.x)*100, (self.y-1)*100, 100, 300))
+                        pygame.draw.rect(screen, (100, 0, 200), ((self.x+1)*100, (self.y+1)*100, 100, 100))
     def Move(self, direction, board):
         match self.type:
             case 'O':
